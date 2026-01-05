@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/bearcat/ws_bartrover/install/serial/include/**",
+        "/home/bearcat/ws_bartrover/install/diffdrive_arduino/include/**",
+        "/opt/ros/jazzy/include/**",
+        "/home/bearcat/ws_bartrover/src/bartrover/include/**",
+        "/home/bearcat/ws_bartrover/src/serial/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
