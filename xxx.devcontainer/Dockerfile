@@ -1,6 +1,6 @@
 
-FROM osrf/ros:jazzy-desktop
-#FROM osrf/ros:jazzy-ros-base
+#FROM osrf/ros:jazzy-desktop
+FROM ros:jazzy-ros-base
 
 ARG USERNAME=rosdev
 ARG USER_UID=1000
@@ -17,20 +17,34 @@ RUN apt update -q \
     rsync                         \
     gdb                           \
     gdbserver                     \
-    ros-jazzy-ros-gz                        \
-    ros-jazzy-ros-gz-bridge                 \
-    ros-jazzy-ros-gz-sim                    \
-    ros-jazzy-gz-ros2-control               \
+#****SIM/Desktop ONLY Begin****
+    #ros-jazzy-ros-gz                        \
+    #ros-jazzy-ros-gz-bridge                 \
+    #ros-jazzy-ros-gz-sim                    \
+    #ros-jazzy-gz-ros2-control               \
+#****SIM/Desktop ONLY End****
+    ros-jazzy-camera-ros                    \
     ros-jazzy-foxglove-bridge               \
     ros-jazzy-joint-state-publisher         \
-    ros-jazzy-xacro                         \
-    ros-jazzy-teleop-twist-keyboard         \
-    ros-jazzy-teleop-twist-joy              \
-    software-properties-common              \
-    ros-jazzy-twist-mux                     \
     ros-jazzy-ros2-control                  \
     ros-jazzy-ros2-controllers              \
+    ros-jazzy-ros2-control-cmake            \
+    ros-jazzy-teleop-twist-keyboard         \
+    ros-jazzy-teleop-twist-joy              \
+    ros-jazzy-image-transport-plugins       \
+    ros-jazzy-twist-mux                     \
     ros-jazzy-twist-stamper                 \
+    ros-jazzy-xacro                         \
+    software-properties-common              \
+#****Old Camera Utils****
+    #ros-jazzy-v4l2-camera                   \
+    #v4l-utils                               \
+#****New Camera Utils: must install manually
+    #libcamera-tools                         \
+    #rpicam-apps-lite                        \
+    #python3-picamera2                       \
+    libraspberrypi-bin                      \
+    libserial-dev                           \
     python3-pip                             \
     xauth                                   \
 && apt clean \
@@ -38,6 +52,9 @@ RUN apt update -q \
 
 # Delete user if it exists in container (e.g Ubuntu Noble: ubuntu)
 RUN if id -u $USER_UID ; then userdel `id -un $USER_UID` ; fi
+
+# Add user to video group for pi camera access - doesn't seem to work
+#RUN usermod -a -G video $USERNAME
 
 # Create and switch to the user
 RUN groupadd --gid $USER_GID $USERNAME \

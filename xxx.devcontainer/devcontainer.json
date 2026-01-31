@@ -58,17 +58,23 @@
 "target": "/dev/bus/usb",
 "type": "bind"
 },
-// Allow the container to access the X server on the host e.g. to run Rviz and other GUI tools
 {
-"source": "/tmp/.X11-unix",
-"target": "/tmp/.X11-unix",
+"source": "/run/udev",
+"target": "/run/udev",
 "type": "bind"
 },
-{
-"source": "${localEnv:XAUTHORITY:-$HOME/.Xauthority}",
-"target": "/root/.Xauthority",
-"type": "bind"
-},
+
+// Allow the container to access the X server on the host e.g. to run Rviz and other GUI tools, comment out for base config
+//{
+//"source": "/tmp/.X11-unix",
+//"target": "/tmp/.X11-unix",
+//"type": "bind"
+//},
+//{
+//#"source": "${localEnv:XAUTHORITY:-$HOME/.Xauthority}",
+//#"target": "/root/.Xauthority",
+//#"type": "bind"
+//},
 
 // Uncomment to persist bash history between sessions
 {
@@ -80,6 +86,10 @@
 ],
 "runArgs": [
 "--network=host", // Shares the host's network namespace with the container
+"--device=/dev/video0:/dev/video0", // Give access to Raspberry Pi camera
+"--device=/dev/vchiq:/dev/vchiq", // Pi camera
+//"-v", "/home/pi/calibration_data:/workspaces/calibration:rw", // Calibration folder access
+"--group-add=video", // Add USER access
 "--pid=host", // Shares the host's PID namespace with the container
 "--privileged", // Gives the container full access to the host's devices and allows it to run with root privileges
 "--cap-add=SYS_PTRACE", // Allows the container to trace processes using ptrace system call
